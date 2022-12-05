@@ -127,11 +127,9 @@ def candidates_iter(e):
       continue
     yield idx, c
 
-def create_example_from_jsonl(line, ids):
+def create_example_from_jsonl(line):
   """Creates an NQ example from a given line of JSON."""
   e = json.loads(line, object_pairs_hook=collections.OrderedDict)
-  if str(e["example_id"]) not in ids:
-    return None
   add_candidate_types_and_positions(e)
   annotation, annotated_idx, annotated_sa = get_first_annotation(e)
 
@@ -269,6 +267,8 @@ if __name__ == "__main__":
     args.add_argument("--max_contexts", type=int, default=1)
     args.add_argument("--doc_stride", type=int, default=128)
 
+
+    # Path to full natural questions dataset.
     args.add_argument("--split", type=str, default="train")
     args.add_argument("--data_path", type=str, default="/users/cloverin/data/collective_cache/question_answering_v1.0")
     
